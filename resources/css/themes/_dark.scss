@@ -1,0 +1,148 @@
+// Dark Theme Mixin
+// =============================================================================
+
+@mixin dark-theme {
+  // CSS Custom Properties for Dark Theme
+  --tblr-body-bg: #{$dark-bg-primary};
+  --tblr-body-color: #{$dark-text-primary};
+  --tblr-border-color: #{$dark-border-color};
+  
+  // Card styling
+  --tblr-card-bg: #{$dark-bg-secondary};
+  --tblr-card-border-color: #{$dark-border-color};
+  
+  // Navbar styling  
+  --tblr-navbar-bg: #{$dark-bg-tertiary};
+  --tblr-navbar-color: #{$dark-text-primary};
+  --tblr-navbar-brand-color: #{$dark-text-primary};
+  
+  // Dropdown styling
+  --tblr-dropdown-bg: #{$dark-bg-secondary};
+  --tblr-dropdown-border-color: #{$dark-border-color};
+  --tblr-dropdown-link-color: #{$dark-text-primary};
+  --tblr-dropdown-link-hover-bg: #{rgba($dark-text-primary, 0.1)};
+  
+  // Button styling
+  --tblr-btn-color: #{$dark-text-primary};
+  
+  // Input styling
+  --tblr-input-bg: #{$dark-bg-secondary};
+  --tblr-input-border-color: #{$dark-border-color};
+  --tblr-input-color: #{$dark-text-primary};
+  --tblr-input-placeholder-color: #{$dark-text-muted};
+  
+  // Additional dark theme styles
+  background-color: $dark-bg-primary;
+  color: $dark-text-primary;
+  
+  // Navbar dark specific styling
+  .navbar {
+    background-color: $dark-bg-tertiary !important;
+    border-color: $dark-border-color;
+    
+    .navbar-brand {
+      color: $dark-text-primary !important;
+      
+      &:hover {
+        color: lighten($dark-text-primary, 10%) !important;
+      }
+    }
+    
+    .nav-link {
+      color: $dark-text-secondary !important;
+      
+      &:hover, &.active {
+        color: $dark-text-primary !important;
+        background-color: rgba($dark-text-primary, 0.1);
+      }
+    }
+  }
+  
+  // Cards dark styling
+  .card {
+    background-color: $dark-bg-secondary;
+    border-color: $dark-border-color;
+    box-shadow: $dark-shadow;
+    
+    .card-header {
+      background-color: rgba($dark-text-primary, 0.03);
+      border-color: $dark-border-color;
+    }
+    
+    .card-title {
+      color: $dark-text-primary;
+    }
+    
+    .card-text {
+      color: $dark-text-secondary;
+    }
+  }
+  
+  // Form controls dark styling  
+  .form-control, .form-select {
+    background-color: $dark-bg-secondary;
+    border-color: $dark-border-color;
+    color: $dark-text-primary;
+    
+    &:focus {
+      background-color: $dark-bg-secondary;
+      border-color: $primary-color;
+      color: $dark-text-primary;
+      box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25);
+    }
+    
+    &::placeholder {
+      color: $dark-text-muted;
+    }
+  }
+  
+  // Dropdown dark styling
+  .dropdown-menu {
+    background-color: $dark-bg-secondary;
+    border-color: $dark-border-color;
+    
+    .dropdown-item {
+      color: $dark-text-primary;
+      
+      &:hover, &:focus {
+        background-color: rgba($dark-text-primary, 0.1);
+        color: $dark-text-primary;
+      }
+    }
+    
+    .dropdown-divider {
+      border-color: $dark-border-color;
+    }
+  }
+  
+  // Table dark styling
+  .table {
+    color: $dark-text-primary;
+    
+    th, td {
+      border-color: $dark-border-color;
+    }
+    
+    &.table-striped > tbody > tr:nth-of-type(odd) > td {
+      background-color: rgba($dark-text-primary, 0.02);
+    }
+  }
+  
+  // Logo inversion for dark theme
+  .navbar-brand-autodark .navbar-brand-image {
+    filter: invert(1) brightness(1.2);
+  }
+  
+  // Footer dark styling
+  .footer {
+    border-color: $dark-border-color;
+    
+    .list-inline-item a {
+      color: $dark-text-secondary;
+      
+      &:hover {
+        color: $dark-text-primary;
+      }
+    }
+  }
+}

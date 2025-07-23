@@ -1,0 +1,148 @@
+// Light Theme Mixin
+// =============================================================================
+
+@mixin light-theme {
+  // CSS Custom Properties for Light Theme
+  --tblr-body-bg: #{$light-bg-primary};
+  --tblr-body-color: #{$light-text-primary};
+  --tblr-border-color: #{$light-border-color};
+  
+  // Card styling
+  --tblr-card-bg: #{$light-bg-primary};
+  --tblr-card-border-color: #{$light-border-color};
+  
+  // Navbar styling
+  --tblr-navbar-bg: #{$light-bg-primary};
+  --tblr-navbar-color: #{$light-text-primary};
+  --tblr-navbar-brand-color: #{$light-text-primary};
+  
+  // Dropdown styling
+  --tblr-dropdown-bg: #{$light-bg-primary};
+  --tblr-dropdown-border-color: #{$light-border-color};
+  --tblr-dropdown-link-color: #{$light-text-primary};
+  --tblr-dropdown-link-hover-bg: #{$light-bg-secondary};
+  
+  // Button styling
+  --tblr-btn-color: #{$light-text-primary};
+  
+  // Input styling
+  --tblr-input-bg: #{$light-bg-primary};
+  --tblr-input-border-color: #{$light-border-color};
+  --tblr-input-color: #{$light-text-primary};
+  --tblr-input-placeholder-color: #{$light-text-muted};
+  
+  // Additional light theme styles
+  background-color: $light-bg-primary;
+  color: $light-text-primary;
+  
+  // Navbar light specific styling
+  .navbar {
+    background-color: $light-bg-primary !important;
+    border-color: $light-border-color;
+    
+    .navbar-brand {
+      color: $light-text-primary !important;
+      
+      &:hover {
+        color: darken($light-text-primary, 10%) !important;
+      }
+    }
+    
+    .nav-link {
+      color: $light-text-secondary !important;
+      
+      &:hover, &.active {
+        color: $light-text-primary !important;
+        background-color: $light-bg-secondary;
+      }
+    }
+  }
+  
+  // Cards light styling
+  .card {
+    background-color: $light-bg-primary;
+    border-color: $light-border-color;
+    box-shadow: $light-shadow;
+    
+    .card-header {
+      background-color: $light-bg-secondary;
+      border-color: $light-border-color;
+    }
+    
+    .card-title {
+      color: $light-text-primary;
+    }
+    
+    .card-text {
+      color: $light-text-secondary;
+    }
+  }
+  
+  // Form controls light styling
+  .form-control, .form-select {
+    background-color: $light-bg-primary;
+    border-color: $light-border-color;
+    color: $light-text-primary;
+    
+    &:focus {
+      background-color: $light-bg-primary;
+      border-color: $primary-color;
+      color: $light-text-primary;
+      box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25);
+    }
+    
+    &::placeholder {
+      color: $light-text-muted;
+    }
+  }
+  
+  // Dropdown light styling
+  .dropdown-menu {
+    background-color: $light-bg-primary;
+    border-color: $light-border-color;
+    
+    .dropdown-item {
+      color: $light-text-primary;
+      
+      &:hover, &:focus {
+        background-color: $light-bg-secondary;
+        color: $light-text-primary;
+      }
+    }
+    
+    .dropdown-divider {
+      border-color: $light-border-color;
+    }
+  }
+  
+  // Table light styling
+  .table {
+    color: $light-text-primary;
+    
+    th, td {
+      border-color: $light-border-color;
+    }
+    
+    &.table-striped > tbody > tr:nth-of-type(odd) > td {
+      background-color: $light-bg-secondary;
+    }
+  }
+  
+  // Logo normal for light theme
+  .navbar-brand-autodark .navbar-brand-image {
+    filter: none;
+  }
+  
+  // Footer light styling
+  .footer {
+    border-color: $light-border-color;
+    
+    .list-inline-item a {
+      color: $light-text-secondary;
+      
+      &:hover {
+        color: $light-text-primary;
+      }
+    }
+  }
+}

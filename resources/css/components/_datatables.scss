@@ -1,0 +1,152 @@
+/* DataTables Integration for Tabler Theme */
+
+/* Custom DataTables styles for Tabler theme compatibility */
+.dataTables_wrapper {
+    font-family: inherit;
+    
+    .dataTables_length select {
+        background-color: var(--tblr-bg-surface);
+        border: 1px solid var(--tblr-border-color);
+        color: var(--tblr-body-color);
+        border-radius: var(--tblr-border-radius);
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        
+        &:focus {
+            border-color: var(--tblr-primary);
+            box-shadow: 0 0 0 0.25rem rgba(var(--tblr-primary-rgb), 0.25);
+        }
+    }
+
+    .dataTables_filter input {
+        background-color: var(--tblr-bg-surface);
+        border: 1px solid var(--tblr-border-color);
+        color: var(--tblr-body-color);
+        border-radius: var(--tblr-border-radius);
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        
+        &:focus {
+            border-color: var(--tblr-primary);
+            box-shadow: 0 0 0 0.25rem rgba(var(--tblr-primary-rgb), 0.25);
+        }
+        
+        &::placeholder {
+            color: var(--tblr-body-color-secondary);
+        }
+    }
+
+    .dataTables_info,
+    .dataTables_paginate {
+        color: var(--tblr-body-color);
+        font-size: 0.875rem;
+    }
+
+    .dataTables_length label,
+    .dataTables_filter label {
+        color: var(--tblr-body-color);
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+    .dataTables_processing {
+        background: var(--tblr-bg-surface);
+        color: var(--tblr-body-color);
+        border: 1px solid var(--tblr-border-color);
+        border-radius: var(--tblr-border-radius);
+    }
+}
+
+/* Pagination styling */
+.page-link {
+    background-color: var(--tblr-bg-surface);
+    border-color: var(--tblr-border-color);
+    color: var(--tblr-body-color);
+    
+    &:hover {
+        background-color: var(--tblr-bg-surface-secondary);
+        border-color: var(--tblr-border-color);
+        color: var(--tblr-body-color);
+    }
+    
+    &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(var(--tblr-primary-rgb), 0.25);
+    }
+}
+
+.page-item.active .page-link {
+    background-color: var(--tblr-primary);
+    border-color: var(--tblr-primary);
+    color: white;
+    
+    &:hover {
+        background-color: var(--tblr-primary);
+        border-color: var(--tblr-primary);
+    }
+}
+
+.page-item.disabled .page-link {
+    background-color: var(--tblr-bg-surface);
+    border-color: var(--tblr-border-color);
+    color: var(--tblr-body-color-secondary);
+}
+
+/* Table styling improvements */
+.table-vcenter th {
+    border-color: var(--tblr-border-color);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > td,
+.table-striped > tbody > tr:nth-of-type(odd) > th {
+    background-color: var(--tblr-bg-surface-secondary);
+}
+
+/* Dark theme specific adjustments */
+[data-bs-theme="dark"] {
+    .dataTables_wrapper {
+        .dataTables_length select,
+        .dataTables_filter input {
+            background-color: var(--tblr-dark);
+            border-color: var(--tblr-border-color-dark);
+            color: var(--tblr-body-color);
+        }
+
+        .dataTables_info,
+        .dataTables_paginate,
+        .dataTables_length label,
+        .dataTables_filter label {
+            color: var(--tblr-body-color);
+        }
+        
+        .dataTables_processing {
+            background: var(--tblr-dark);
+            color: var(--tblr-body-color);
+            border-color: var(--tblr-border-color-dark);
+        }
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .dataTables_wrapper {
+        .dataTables_length,
+        .dataTables_filter {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .dataTables_info,
+        .dataTables_paginate {
+            text-align: center;
+            margin-top: 1rem;
+        }
+    }
+}
+
+/* Button styling for DataTables buttons extension */
+.dt-buttons {
+    .btn {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+}

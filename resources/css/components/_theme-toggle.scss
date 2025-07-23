@@ -1,0 +1,72 @@
+// Theme Toggle Component
+// =============================================================================
+
+#theme-toggle {
+  border: 1px solid var(--tblr-border-color);
+  background-color: transparent;
+  color: var(--tblr-body-color);
+  padding: 0.5rem;
+  border-radius: $button-border-radius;
+  transition: $button-transition;
+  position: relative;
+  overflow: hidden;
+  
+  &:hover {
+    transform: scale(1.05);
+    background-color: var(--tblr-primary);
+    border-color: var(--tblr-primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(var(--tblr-primary-rgb), 0.3);
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(var(--tblr-primary-rgb), 0.25);
+    outline: none;
+  }
+  
+  // Icon styling
+  .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: $button-transition;
+  }
+  
+  // Icon animation states
+  #theme-icon-dark,
+  #theme-icon-light {
+    transition: all 0.3s ease;
+  }
+  
+  // Smooth icon transitions
+  &.switching {
+    .icon {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+// Theme toggle tooltip
+.tooltip {
+  font-size: $font-size-sm;
+  
+  &.bs-tooltip-bottom .tooltip-arrow::before {
+    border-bottom-color: var(--tblr-body-color);
+  }
+  
+  .tooltip-inner {
+    background-color: var(--tblr-body-color);
+    color: var(--tblr-body-bg);
+  }
+}
+
+// Mobile theme toggle
+@media (max-width: 768px) {
+  #theme-toggle {
+    padding: 0.375rem;
+    
+    .icon {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+}

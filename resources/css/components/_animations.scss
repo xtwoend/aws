@@ -1,0 +1,109 @@
+// Animations and Transitions
+// =============================================================================
+
+// Global theme transition
+html[data-bs-theme="dark"],
+html[data-bs-theme="light"] {
+  transition: $theme-transition;
+}
+
+// Component transitions
+.card,
+.navbar,
+.dropdown-menu,
+.form-control,
+.btn {
+  transition: $theme-transition;
+}
+
+// Smooth page transitions
+.page-wrapper {
+  transition: background-color 0.3s ease;
+}
+
+// Loading animation for theme switch
+@keyframes themeSwitch {
+  0% { opacity: 0.8; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.theme-switching {
+  animation: themeSwitch 0.3s ease-in-out;
+}
+
+// Icon rotation animation
+@keyframes iconRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(180deg); }
+}
+
+.icon-rotate {
+  animation: iconRotate 0.3s ease-in-out;
+}
+
+// Card hover animations
+@keyframes cardHover {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2px); }
+}
+
+.card-hover:hover {
+  animation: cardHover 0.2s ease-out forwards;
+}
+
+// Fade in animation for new elements
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// Slide in animation for sidebar
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+// Pulse animation for notifications
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+// Smooth scrolling
+html {
+  scroll-behavior: smooth;
+}
+
+// Focus ring enhancements
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 0.2rem rgba(var(--tblr-primary-rgb), 0.25);
+  outline: none;
+}
+
+// Reduced motion preferences
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
