@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = User::select(['id', 'name', 'email', 'email_verified_at', 'created_at']);
+            $query = User::select(['id', 'name', 'email', 'role', 'email_verified_at', 'created_at']);
             
             // Apply filters based on status
             if ($request->has('status')) {
@@ -32,12 +32,23 @@ class UserController extends Controller
                     case 'recent':
                         $query->where('created_at', '>=', now()->subDays(30));
                         break;
+                    case 'admin':
+                        $query->where('role', 'admin');
+                        break;
+                    case 'viewer':
+                        $query->where('role', 'viewer');
+                        break;
                 }
             }
             
             $users = $query->latest();
 
             return DataTables::of($users)
+                ->addColumn('role_badge', function ($user) {
+                    return $user->role === 'admin' 
+                        ? '<span class="badge bg-primary text-white">Administrator</span>'
+                        : '<span class="badge bg-secondary text-white">Viewer</span>';
+                })
                 ->addColumn('status', function ($user) {
                     return $user->email_verified_at 
                         ? '<span class="badge bg-success-lt text-success">Verified</span>'
@@ -49,14 +60,18 @@ class UserController extends Controller
                 ->addColumn('action', function ($user) {
                     $actions = '<div class="btn-list">';
                     $actions .= '<a href="' . route('users.show', $user) . '" class="btn btn-sm btn-outline-primary" title="View"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 3.6 -6 6 -9 6c-3 0 -6.6 -2.4 -9 -6c2.4 -3.6 6 -6 9 -6c3 0 6.6 2.4 9 6" /></svg></a>';
-                    $actions .= '<a href="' . route('users.edit', $user) . '" class="btn btn-sm btn-outline-secondary" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg></a>';
-                    if (Auth::id() !== $user->id) {
-                        $actions .= '<button class="btn btn-sm btn-outline-danger" onclick="deleteUser(' . $user->id . ')" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg></button>';
+                    
+                    // Only admin can edit and delete users
+                    if (Auth::user()->role === 'admin') {
+                        $actions .= '<a href="' . route('users.edit', $user) . '" class="btn btn-sm btn-outline-secondary" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg></a>';
+                        if (Auth::id() !== $user->id) {
+                            $actions .= '<button class="btn btn-sm btn-outline-danger" onclick="deleteUser(' . $user->id . ')" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg></button>';
+                        }
                     }
                     $actions .= '</div>';
                     return $actions;
                 })
-                ->rawColumns(['status', 'joined', 'action'])
+                ->rawColumns(['role_badge', 'status', 'joined', 'action'])
                 ->make(true);
         }
 
@@ -65,8 +80,10 @@ class UserController extends Controller
         $verifiedUsers = User::whereNotNull('email_verified_at')->count();
         $unverifiedUsers = User::whereNull('email_verified_at')->count();
         $recentUsers = User::where('created_at', '>=', now()->subDays(30))->count();
+        $adminUsers = User::where('role', 'admin')->count();
+        $viewerUsers = User::where('role', 'viewer')->count();
 
-        return view('users.index', compact('totalUsers', 'verifiedUsers', 'unverifiedUsers', 'recentUsers'));
+        return view('users.index', compact('totalUsers', 'verifiedUsers', 'unverifiedUsers', 'recentUsers', 'adminUsers', 'viewerUsers'));
     }
 
     /**
@@ -74,6 +91,11 @@ class UserController extends Controller
      */
     public function create()
     {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'You do not have permission to create users.');
+        }
+
         return view('users.create');
     }
 
@@ -82,10 +104,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'You do not have permission to create users.');
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::defaults()],
+            'role' => ['required', 'in:admin,viewer'],
         ]);
 
         if ($validator->fails()) {
@@ -98,6 +126,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
             'email_verified_at' => $request->has('verified') ? now() : null,
         ]);
 
@@ -118,6 +147,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'You do not have permission to edit users.');
+        }
+
         return view('users.edit', compact('user'));
     }
 
@@ -126,10 +160,16 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'You do not have permission to update users.');
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'confirmed', Password::defaults()],
+            'role' => ['required', 'in:admin,viewer'],
         ]);
 
         if ($validator->fails()) {
@@ -141,6 +181,7 @@ class UserController extends Controller
         $data = [
             'name' => $request->name,
             'email' => $request->email,
+            'role' => $request->role,
             'email_verified_at' => $request->has('verified') ? ($user->email_verified_at ?? now()) : null,
         ];
 
@@ -159,6 +200,14 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            return response()->json([
+                'success' => false,
+                'message' => 'You do not have permission to delete users.'
+            ], 403);
+        }
+
         if (Auth::id() === $user->id) {
             return response()->json([
                 'success' => false,

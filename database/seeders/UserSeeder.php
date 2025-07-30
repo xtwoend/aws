@@ -14,12 +14,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create admin user (only if doesn't exist)
+                // Create admin user (only if doesn't exist)
         User::firstOrCreate(
             ['email' => 'admin@admin.com'],
             [
                 'name' => 'Administrator',
                 'password' => Hash::make('admin123'),
+                'role' => 'admin',
                 'email_verified_at' => now(),
             ]
         );
@@ -30,6 +31,18 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Test User',
                 'password' => Hash::make('password'),
+                'role' => 'viewer',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // Create viewer user for demonstration
+        User::firstOrCreate(
+            ['email' => 'viewer@example.com'],
+            [
+                'name' => 'Viewer User',
+                'password' => Hash::make('password123'),
+                'role' => 'viewer',
                 'email_verified_at' => now(),
             ]
         );

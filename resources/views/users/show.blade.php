@@ -28,6 +28,7 @@
                         </svg>
                         Back to Users
                     </a>
+                    @if(Auth::user()->role === 'admin')
                     <a href="{{ route('users.edit', $user) }}" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -37,6 +38,7 @@
                         </svg>
                         Edit User
                     </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -76,6 +78,23 @@
                                                 <path d="M12 16h.01" />
                                             </svg>
                                         @endif
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Role</label>
+                                    <div class="form-control-plaintext">
+                                        @if($user->role === 'admin')
+                                            <span class="badge bg-primary text-white">Administrator</span>
+                                        @else
+                                            <span class="badge bg-secondary text-white">Viewer</span>
+                                        @endif
+                                        <small class="text-muted d-block">
+                                            @if($user->role === 'admin')
+                                                Full access to manage system and users
+                                            @else
+                                                Read-only access to view data
+                                            @endif
+                                        </small>
                                     </div>
                                 </div>
                             </div>

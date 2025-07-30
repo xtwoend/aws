@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Device;
 use App\Models\AwsLogger;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class DeviceController extends Controller
@@ -57,6 +58,11 @@ class DeviceController extends Controller
      */
     public function create()
     {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'You do not have permission to create devices.');
+        }
+
         return view('devices.create');
     }
 
@@ -65,6 +71,11 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'You do not have permission to create devices.');
+        }
+
         $validator = Validator::make($request->all(), [
             'code' => 'required|string|max:255|unique:devices',
             'name' => 'nullable|string|max:255',
@@ -116,6 +127,11 @@ class DeviceController extends Controller
      */
     public function edit(Device $device)
     {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'You do not have permission to edit devices.');
+        }
+
         return view('devices.edit', compact('device'));
     }
 
@@ -124,6 +140,11 @@ class DeviceController extends Controller
      */
     public function update(Request $request, Device $device)
     {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'You do not have permission to update devices.');
+        }
+
         $validator = Validator::make($request->all(), [
             'code' => 'required|string|max:255|unique:devices,code,' . $device->id,
             'name' => 'nullable|string|max:255',
@@ -150,6 +171,12 @@ class DeviceController extends Controller
      */
     public function destroy(Device $device)
     {
+        // Check if user is admin
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('devices.index')
+                ->with('error', 'You do not have permission to delete devices.');
+        }
+
         // Check if device has AWS logs
         if ($device->awsLogs()->exists()) {
             return redirect()->route('devices.index')

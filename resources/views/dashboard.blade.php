@@ -8,7 +8,15 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <div class="page-pretitle">Overview</div>
-                <h2 class="page-title">AWS Logger Dashboard</h2>
+                <h2 class="page-title">
+                    AWS Logger Dashboard
+                    <span class="badge bg-{{ Auth::user()->role === 'admin' ? 'primary' : 'secondary' }} ms-2">
+                        {{ Auth::user()->role === 'admin' ? 'Administrator' : 'Viewer' }}
+                    </span>
+                </h2>
+                <div class="page-subtitle">
+                    Welcome back, {{ Auth::user()->name }}
+                </div>
             </div>
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">

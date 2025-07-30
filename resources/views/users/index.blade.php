@@ -13,6 +13,7 @@
                 <h2 class="page-title">User Management</h2>
             </div>
             <div class="col-auto ms-auto d-print-none">
+                @if(Auth::user()->role === 'admin')
                 <div class="btn-list">
                     <a href="{{ route('users.create') }}" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -23,6 +24,7 @@
                         Add New User
                     </a>
                 </div>
+                @endif
             </div>
         </div>
     </div>
@@ -115,6 +117,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th>Role</th>
                                         <th>Status</th>
                                         <th>Joined</th>
                                         <th width="150">Actions</th>
@@ -315,11 +318,12 @@ function initializeUserManagement() {
         columns: [
             {data: 'name', name: 'name', title: 'Name'},
             {data: 'email', name: 'email', title: 'Email'},
+            {data: 'role_badge', name: 'role', title: 'Role', orderable: false, searchable: false},
             {data: 'status', name: 'status', orderable: false, searchable: false, title: 'Status'},
             {data: 'joined', name: 'joined', orderable: true, searchable: false, title: 'Joined'},
             {data: 'action', name: 'action', orderable: false, searchable: false, title: 'Actions'}
         ],
-        order: [[3, 'desc']],
+        order: [[4, 'desc']],
         pageLength: 25,
         responsive: {
             details: {

@@ -11,18 +11,22 @@
             </div>
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
+                    @if(Auth::user()->role === 'admin')
                     <button class="btn btn-outline-secondary" onclick="syncWithAwsLogger()">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" /></svg>
                         Sync with AWS Logger
                     </button>
+                    @endif
                     <a href="{{ route('devices.export') }}" class="btn btn-outline-success">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /></svg>
                         Export CSV
                     </a>
+                    @if(Auth::user()->role === 'admin')
                     <a href="{{ route('devices.create') }}" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                         Add Device
                     </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -221,16 +225,20 @@
                                                 <a href="{{ route('devices.show', $device) }}" class="btn btn-sm btn-outline-primary">
                                                     View
                                                 </a>
+                                                @if(Auth::user()->role === 'admin')
                                                 <a href="{{ route('devices.edit', $device) }}" class="btn btn-sm btn-outline-secondary">
                                                     Edit
                                                 </a>
+                                                @endif
                                                 <a href="{{ route('aws-logger.show', $device->code) }}" class="btn btn-sm btn-outline-info">
                                                     AWS Logs
                                                 </a>
+                                                @if(Auth::user()->role === 'admin')
                                                 <button type="button" class="btn btn-sm btn-outline-danger" 
                                                         onclick="deleteDevice('{{ $device->id }}')">
                                                     Delete
                                                 </button>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>

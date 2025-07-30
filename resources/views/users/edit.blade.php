@@ -101,7 +101,19 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-12 mb-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label required">Role</label>
+                                    <select class="form-select @error('role') is-invalid @enderror" name="role" required>
+                                        <option value="">Select Role</option>
+                                        <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Administrator</option>
+                                        <option value="viewer" {{ old('role', $user->role) == 'viewer' ? 'selected' : '' }}>Viewer</option>
+                                    </select>
+                                    @error('role')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <small class="form-hint">Admin can manage all data, Viewer can only view data.</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
                                     <label class="form-check">
                                         <input class="form-check-input" type="checkbox" name="verified" value="1" 
                                                {{ old('verified', $user->email_verified_at ? '1' : '') ? 'checked' : '' }}>
