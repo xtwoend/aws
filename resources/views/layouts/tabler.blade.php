@@ -115,6 +115,7 @@
                                     </span>
                                 </a>
                             </li>
+                            @if(Auth::user()->isAdmin())
                             <li class="nav-item {{ request()->routeIs('users.*') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('users.index') }}">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -125,6 +126,7 @@
                                     </span>
                                 </a>
                             </li>
+                            @endif
                             <li class="nav-item {{ request()->routeIs('api-test') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('api-test') }}">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
