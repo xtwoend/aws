@@ -35,6 +35,11 @@ Route::middleware('auth')->group(function () {
         return view('api-test');
     })->name('api-test');
     
+    // Modal Testing page (for debugging)
+    Route::get('/modal-test', function () {
+        return view('modal-test');
+    })->name('modal-test');
+    
     // Device Management routes
     Route::resource('devices', DeviceController::class);
     Route::post('/devices/{device}/toggle-status', [DeviceController::class, 'toggleStatus'])->name('devices.toggle-status');

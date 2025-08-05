@@ -2,10 +2,7 @@ import './bootstrap';
 
 // Import jQuery and Popper.js
 import jQuery from 'jquery';
-import { createPopper } from '@popperjs/core';
-
-// Import Tabler Core JavaScript (includes Bootstrap)
-import '@tabler/core/dist/js/tabler.min.js';
+import '@tabler/core/js/tabler.js';
 
 // Import DataTables and extensions
 import 'datatables.net-bs5';
@@ -17,7 +14,6 @@ import Alpine from 'alpinejs';
 
 // Make libraries globally available
 window.$ = window.jQuery = jQuery;
-window.Popper = createPopper;
 window.Alpine = Alpine;
 
 // Start Alpine
@@ -26,6 +22,8 @@ Alpine.start();
 // Initialize custom features on DOM load
 document.addEventListener('DOMContentLoaded', function() {
     console.log("🚀 Initializing custom features...");
+ 
+    // Initialize custom dashboard features
     initCustomFeatures();
     console.log("✅ Custom features initialized.");
 });

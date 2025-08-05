@@ -311,7 +311,8 @@ let userIdToDelete = null;
 
 function deleteUser(userId) {
     userIdToDelete = userId;
-    $('#deleteModal').modal('show');
+    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    modal.show();
 }
 
 function markAsVerified(userId) {
@@ -321,6 +322,7 @@ function markAsVerified(userId) {
 
 $('#confirmDelete').click(function() {
     if (userIdToDelete) {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
         $.ajax({
             url: '/users/' + userIdToDelete,
             type: 'DELETE',
@@ -328,7 +330,7 @@ $('#confirmDelete').click(function() {
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
-                $('#deleteModal').modal('hide');
+                modal.hide();
                 if (response.success) {
                     window.location.href = '{{ route("users.index") }}';
                 } else {
@@ -337,7 +339,7 @@ $('#confirmDelete').click(function() {
                 userIdToDelete = null;
             },
             error: function(xhr) {
-                $('#deleteModal').modal('hide');
+                modal.hide();
                 showAlert('danger', 'An error occurred while deleting the user.');
                 userIdToDelete = null;
             }

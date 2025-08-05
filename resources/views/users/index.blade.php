@@ -286,6 +286,7 @@ let userIdToDelete = null;
 
 // Function to initialize DataTables after libraries are loaded
 function initializeUserManagement() {
+
     // Check if jQuery and DataTables are available
     if (typeof window.$ === 'undefined' || typeof window.jQuery === 'undefined') {
         console.warn('jQuery not loaded yet, retrying...');
@@ -305,11 +306,7 @@ function initializeUserManagement() {
         setTimeout(initializeUserManagement, 100);
         return;
     }
-    
-    // Use window.$ directly instead of reassigning
-    console.log('jQuery loaded:', typeof window.$ !== 'undefined');
-    console.log('DataTables loaded:', typeof window.$.fn.DataTable !== 'undefined');
-    
+       
     // Initialize DataTable for All Users
     usersTable = window.$('#usersTable').DataTable({
         processing: true,
@@ -450,6 +447,13 @@ function initializeUserManagement() {
     // Delete confirmation modal handlers
     window.$('#confirmDelete').click(function() {
         if (userIdToDelete) {
+            // Try to get modal instance using different methods
+            let modal = null;
+            
+            if (window.bootstrap && window.bootstrap.Modal) {
+                modal = window.bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+            }
+            
             window.$.ajax({
                 url: '/users/' + userIdToDelete,
                 type: 'DELETE',
@@ -457,7 +461,21 @@ function initializeUserManagement() {
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    window.$('#deleteModal').modal('hide');
+                    // Hide modal using different methods
+                    if (modal && modal.hide) {
+                        modal.hide();
+                    } else if (window.$('#deleteModal').length) {
+                        window.$('#deleteModal').modal('hide');
+                    } else {
+                        // Manual hide
+                        const modalElement = document.getElementById('deleteModal');
+                        if (modalElement) {
+                            modalElement.style.display = 'none';
+                            modalElement.classList.remove('show');
+                            document.body.classList.remove('modal-open');
+                        }
+                    }
+                    
                     if (response.success) {
                         // Show success message
                         showAlert('success', response.message);
@@ -468,7 +486,21 @@ function initializeUserManagement() {
                     userIdToDelete = null;
                 },
                 error: function(xhr) {
-                    window.$('#deleteModal').modal('hide');
+                    // Hide modal using different methods
+                    if (modal && modal.hide) {
+                        modal.hide();
+                    } else if (window.$('#deleteModal').length) {
+                        window.$('#deleteModal').modal('hide');
+                    } else {
+                        // Manual hide
+                        const modalElement = document.getElementById('deleteModal');
+                        if (modalElement) {
+                            modalElement.style.display = 'none';
+                            modalElement.classList.remove('show');
+                            document.body.classList.remove('modal-open');
+                        }
+                    }
+                    
                     showAlert('danger', 'An error occurred while deleting the user.');
                     userIdToDelete = null;
                 }
@@ -513,12 +545,66 @@ function updateUserCounts() {
 
 function deleteUser(userId) {
     userIdToDelete = userId;
-    if (typeof window.bootstrap !== 'undefined') {
-        const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
-        modal.show();
-    } else if (typeof window.$ !== 'undefined') {
-        window.$('#deleteModal').modal('show');
+    
+    // Get the modal element
+    const modalElement = document.getElementById('deleteModal');
+    if (!modalElement) {
+        console.error('Delete modal element not found');
+        return;
     }
+    
+    // Try to use Bootstrap Modal
+    if (window.bootstrap && window.bootstrap.Modal) {
+        try {
+            const modal = new window.bootstrap.Modal(modalElement);
+            modal.show();
+        } catch (error) {
+            console.error('Error creating Bootstrap modal:', error);
+            // Fallback to manual modal display
+            showModalManually(modalElement);
+        }
+    } else {
+        console.warn('Bootstrap Modal not available, using fallback');
+        // Fallback to manual modal display
+        showModalManually(modalElement);
+    }
+}
+
+function showModalManually(modalElement) {
+    // Manual modal display as fallback
+    modalElement.style.display = 'block';
+    modalElement.classList.add('show');
+    modalElement.setAttribute('aria-modal', 'true');
+    modalElement.setAttribute('role', 'dialog');
+    document.body.classList.add('modal-open');
+    
+    // Create backdrop
+    const backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop fade show';
+    backdrop.id = 'manual-modal-backdrop';
+    document.body.appendChild(backdrop);
+    
+    // Close modal functionality
+    const closeModal = () => {
+        modalElement.style.display = 'none';
+        modalElement.classList.remove('show');
+        modalElement.removeAttribute('aria-modal');
+        modalElement.removeAttribute('role');
+        document.body.classList.remove('modal-open');
+        const manualBackdrop = document.getElementById('manual-modal-backdrop');
+        if (manualBackdrop) {
+            manualBackdrop.remove();
+        }
+    };
+    
+    // Add event listeners for close buttons
+    const closeButtons = modalElement.querySelectorAll('[data-bs-dismiss="modal"], .btn-close');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', closeModal);
+    });
+    
+    // Close on backdrop click
+    backdrop.addEventListener('click', closeModal);
 }
 
 function showAlert(type, message) {
