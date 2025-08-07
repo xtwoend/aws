@@ -126,7 +126,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <pre id="responseBody" class="bg-light p-3 rounded" style="min-height: 200px; max-height: 400px; overflow-y: auto;">No response yet...</pre>
+                        <pre id="responseBody" class="p-3 rounded" style="min-height: 200px; max-height: 400px; overflow-y: auto;">No response yet...</pre>
                     </div>
                 </div>
             </div>
@@ -172,26 +172,46 @@
                                 <pre class="bg-light p-3 rounded"><code>{
   "data": [
     {
-      "terminal_time": "2025-07-22T10:30:00Z",
-      "device_id": "WS001",
-      "wind_speed": 5.2,
-      "wind_direction": 180,
-      "temperature": 25.6,
-      "humidity": 65.3,
-      "pressure": 1013.25,
-      "rainfall": 0.0,
-      "solar_radiation": 850.2
-    },
-    {
-      "terminal_time": "2025-07-22T10:31:00Z",
-      "device_id": "WS001",
-      "wind_speed": 5.5,
-      "wind_direction": 185,
-      "temperature": 25.8,
-      "humidity": 64.9,
-      "pressure": 1013.30,
-      "rainfall": 0.1,
-      "solar_radiation": 860.5
+    "DataArray": [
+        {
+            "_terminalTime": "2025-08-07 13:54:29.645",
+            "_groupTag": "AWS001",
+            "wind_speed": "0",
+            "wind_direction": "0",
+            "temperature": "0",
+            "humidity": "0",
+            "pressure": "0",
+            "par_sensor": "0",
+            "rainfall": "0",
+            "solar_radiation": "0",
+            "device_id": "AWS002",
+            "device_location": "MILL01",
+            "lat": "0",
+            "lng": "0"
+        }
+    ],
+    "Count": 1
+},
+   {
+        "DataArray": [
+            {
+                "_terminalTime": "2025-08-07 13:54:29.645",
+                "_groupTag": "AWS001",
+                "wind_speed": "0",
+                "wind_direction": "0",
+                "temperature": "0",
+                "humidity": "0",
+                "pressure": "0",
+                "par_sensor": "0",
+                "rainfall": "0",
+                "solar_radiation": "0",
+                "device_id": "AWS002",
+                "device_location": "MILL01",
+                "lat": "0",
+                "lng": "0"
+            }
+        ],
+        "Count": 1
     }
   ]
 }</code></pre>
@@ -221,36 +241,48 @@ function updateForm() {
         // Set default payload
         if (endpoint.includes('/bulk-data')) {
             requestBody.value = JSON.stringify({
-                "data": [
+                "DataArray": [
                     {
-                        "terminal_time": new Date().toISOString(),
-                        "device_id": "WS001",
-                        "wind_speed": 5.2,
-                        "wind_direction": 180,
-                        "temperature": 25.6,
-                        "humidity": 65.3,
-                        "pressure": 1013.25,
-                        "rainfall": 0.0,
-                        "solar_radiation": 850.2
+                        "_terminalTime": "2025-08-07 13:54:29.645",
+                        "_groupTag": "AWS001",
+                        "wind_speed": "0",
+                        "wind_direction": "0",
+                        "temperature": "0",
+                        "humidity": "0",
+                        "pressure": "0",
+                        "par_sensor": "0",
+                        "rainfall": "0",
+                        "solar_radiation": "0",
+                        "device_id": "AWS002",
+                        "device_location": "MILL01",
+                        "lat": "0",
+                        "lng": "0"
                     }
-                ]
+                ],
+                "Count": 1
             }, null, 2);
         } else if (endpoint.includes('/data')) {
             requestBody.value = JSON.stringify({
-                "terminal_time": new Date().toISOString(),
-                "device_id": "WS001",
-                "device_location": "Weather Station 1",
-                "wind_speed": 5.2,
-                "wind_direction": 180,
-                "temperature": 25.6,
-                "humidity": 65.3,
-                "pressure": 1013.25,
-                "par_sensor": 150.5,
-                "rainfall": 0.0,
-                "solar_radiation": 850.2,
-                "lat": -6.200000,
-                "lng": 106.816666
-            }, null, 2);
+                    "DataArray": [
+                        {
+                            "_terminalTime": "2025-08-07 13:54:29.645",
+                            "_groupTag": "AWS001",
+                            "wind_speed": "0",
+                            "wind_direction": "0",
+                            "temperature": "0",
+                            "humidity": "0",
+                            "pressure": "0",
+                            "par_sensor": "0",
+                            "rainfall": "0",
+                            "solar_radiation": "0",
+                            "device_id": "AWS002",
+                            "device_location": "MILL01",
+                            "lat": "0",
+                            "lng": "0"
+                        }
+                    ],
+                    "Count": 1
+                }, null, 2);
         }
     } else {
         document.getElementById('method').value = 'GET';

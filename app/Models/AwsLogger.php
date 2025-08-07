@@ -170,10 +170,6 @@ class AwsLogger extends Model
         if (is_null($this->solar_radiation)) {
             return 'N/A';
         }
-        $value = number_format($this->solar_radiation, 1);
-        $status = 'success';
-        if ($this->solar_radiation >= 300) $status = 'warning';
-        if ($this->solar_radiation >= 600) $status = 'danger';
-        return "<span class=\"badge bg-{$status}-lt\">{$value} W/m²</span>";
+        return number_format($this->solar_radiation, 1) . " W/m²";
     }
 }
