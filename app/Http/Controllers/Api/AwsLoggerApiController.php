@@ -29,8 +29,15 @@ class AwsLoggerApiController extends Controller
                 'data' => $request->all()
             ]);
 
+            $data = $request->input('DataArray');
+            $aws = $data[0];
+
+            $aws['terminal_time'] = $aws['_terminalTime'];
+            unset($aws['_terminalTime']);
+            unset($aws['_groupTag']);
+
             // Validate the incoming data
-            $validator = Validator::make($request->all(), [
+            $validator = Validator::make($aws, [
                 'terminal_time' => 'required|date',
                 'device_id' => 'required|string|max:255',
                 'device_location' => 'nullable|string|max:255',
