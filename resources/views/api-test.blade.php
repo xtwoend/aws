@@ -141,21 +141,31 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <h4>Single Data Payload</h4>
-                                <pre class="bg-light p-3 rounded"><code>{
-  "terminal_time": "2025-07-22T10:30:00Z",
-  "device_id": "WS001",
-  "device_location": "Weather Station 1",
-  "wind_speed": 5.2,
-  "wind_direction": 180,
-  "temperature": 25.6,
-  "humidity": 65.3,
-  "pressure": 1013.25,
-  "par_sensor": 150.5,
-  "rainfall": 0.0,
-  "solar_radiation": 850.2,
-  "lat": -6.200000,
-  "lng": 106.816666
-}</code></pre>
+                                <pre class="bg-light p-3 rounded">
+<code>
+{
+    "DataArray": [
+        {
+            "_terminalTime": "2025-08-07 13:54:29.645",
+            "_groupTag": "AWS001",
+            "wind_speed": "0",
+            "wind_direction": "0",
+            "temperature": "0",
+            "humidity": "0",
+            "pressure": "0",
+            "par_sensor": "0",
+            "rainfall": "0",
+            "solar_radiation": "0",
+            "device_id": "AWS002",
+            "device_location": "MILL01",
+            "lat": "0",
+            "lng": "0"
+        }
+    ],
+    "Count": 1
+}
+</code>
+                                </pre>
                             </div>
                             <div class="col-lg-6">
                                 <h4>Bulk Data Payload</h4>

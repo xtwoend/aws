@@ -1,0 +1,21 @@
+{
+    "DataArray": [
+        {
+            "_terminalTime": "2025-08-07 13:54:29.645",
+            "_groupTag": "AWS001",
+            "wind_speed": "0",
+            "wind_direction": "0",
+            "temperature": "0",
+            "humidity": "0",
+            "pressure": "0",
+            "par_sensor": "0",
+            "rainfall": "0",
+            "solar_radiation": "0",
+            "device_id": "AWS002",
+            "device_location": "MILL01",
+            "lat": "0",
+            "lng": "0"
+        }
+    ],
+    "Count": 1
+}
